@@ -9,17 +9,17 @@
 		<div class="task-list">
 	    <ul>
 	    	<?php require("includes/connect.php"); 
-	    	$mysqli = new mysqli('localhost', 'root', 'root', 'tasks');
+	    	$mysqli = new mysqli('localhost', 'root', 'root', 'todo');
 	    	$query = "SELECT * FROM tasks ORDER BY date ASC, time ASC";
 	    	if ($result = $mysqli->query($query)) {
 	    	  $numrows = $result->num_rows;
 	    	  if ($numrows>0) {
 	    	  	while ($row = $result->fetch_assoc()){
 	    	  	  $task_id = $row['id'];
-	    	  	  $task_name = $row["task"];
+	    	  	  $task_name = $row['task'];
 
 	    	      echo '<li>
-	    	      <span>'.$task_name'</span>
+	    	      <span>'.$task_name.'</span>
 	    	      <img id="'.$task_id.'" class="delete-button" width="10px" src="images/close.svg"/>
 	    	      </li>'; 
 	    	  	}
@@ -35,6 +35,7 @@
 	</div>
 </body>
 <script type="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 	add_task();//calling the add new task function
 
@@ -54,9 +55,9 @@
 
   $('.delete-button').click(function(){
     var current_element = $(this);
-    var task-id = $(this).attr('id');
+    var task_id = $(this).attr('id');
 
-    $.post('includes/delta-task.php', {id: task-id}, function(){
+    $.post('includes/delete-task.php', {id: task_id}, function(){
     current_element.parent().fadeout("fast", function(){
 	    $(this).remove();
 	});
